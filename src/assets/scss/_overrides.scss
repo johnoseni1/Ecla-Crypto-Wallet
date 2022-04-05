@@ -1,0 +1,83 @@
+$brand-gradient-primary: linear-gradient(180deg, #302E78 0%, #4866D3 52.08%, #2FAFCA 100%);
+$brand-gradient-secondary: linear-gradient(360deg, #1CE4C3 -10.66%, #4866D3 31.99%, #302E78 81.56%);
+
+$color-primary: #9D4DFA;
+$color-secondary: #2CD2CF;
+
+$danger:        #F12274;
+$light:         #F8FAFF;
+$dark:          #F0F7F9;
+
+$color-text-primary: #1D1E21;
+$color-text-secondary: #FFFFFF;
+$color-text-muted: #747E8D;
+
+$font-size-base:              0.75rem; // Assumes the browse, typically `16px`
+$font-size-lg:                1rem;
+$font-size-sm:                0.8125rem;
+$font-size-tiny:              0.75rem;
+$lead-font-size:              1rem;
+$small-font-size:             $font-size-sm;
+$text-muted: $color-text-muted;
+$font-size-xs:                0.625rem;
+$font-size-head-title:                0.875rem;
+
+$font-family-base: 'Montserrat', sans-serif;
+$headings-font-weight: 600;
+$font-weight-base: 400;
+$font-weight-light: 300;
+$btn-font-weight: 600;
+$headings-color: $color-text-primary;
+$body-color: $color-text-primary;
+$lead-font-weight: 600;
+
+$hr-border-color: #D9DFE5;
+
+$badge-font-size: 85%;
+
+$primary: $color-primary;
+$secondary: $color-secondary;
+
+$link-color: $color-primary;
+$link-hover-decoration: none;
+
+$input-btn-font-size-lg: $font-size-base;
+$input-btn-padding-y:    .415rem;
+$input-btn-padding-y-sm: .275rem;
+$input-btn-padding-y-lg: .5rem;
+$btn-padding-x-lg:       .5rem;
+$btn-padding-y-sm:       0.15rem;
+
+$input-focus-box-shadow: 0;
+$input-bg: transparent;
+$input-disabled-bg: transparent;
+$btn-box-shadow: none;
+$btn-border-radius-lg: 22px;
+$btn-border-radius-sm: 11px;
+
+$input-padding-y: 0.1rem;
+$input-padding-x: 0;
+$input-border-radius: 0;
+$input-border-width: 0;
+$input-border-color: $color-secondary;
+$input-line-height: 1.1;
+$input-font-size: 28px;
+$input-color: $color-text-primary;
+$input-focus-border-color: $color-primary;
+
+$input-border-radius-sm: 0;
+$input-padding-x-sm: 0;
+$input-font-size-sm: $font-size-base;
+
+$custom-select-border-width: 0;
+$form-group-margin-bottom: 5px;
+$label-margin-bottom: 0;
+
+$wrapper-padding: 20px;
+$grid-gutter-width: 40px;
+$modal-inner-padding: $grid-gutter-width * 0.5;
+$modal-footer-margin-between: 4px;
+
+$container-max-widths: (
+  xl: 980px
+);

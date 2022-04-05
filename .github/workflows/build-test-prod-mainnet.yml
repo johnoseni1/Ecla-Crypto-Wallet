@@ -1,0 +1,74 @@
+on:
+  schedule:
+    - cron: '0 8 * * *' # everyday at 8am
+    - cron: '0 22 * * *' # everyday at 10pm
+
+# Prod Mainnet tests
+name: Prod Mainnet tests
+
+jobs:
+  regressiontest_Prod_mainnet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: 'release-candidate-0.59.0'
+
+      - uses: actions/setup-node@v2.5.1
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+        with:
+          node-version: '14'
+        # Create screenshots directory
+      - run: mkdir screenshots
+
+      - uses: actions/cache@v2
+        env:
+          node-version: 14.1.0
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-node${{ env.node-version }}
+
+      # Create wallet with Dev Prod configuration
+      - name: Set production agents
+        env:
+          VUE_APP_TERRA_MAINNET_URL: ${{ secrets.VUE_APP_TERRA_MAINNET_URL }}
+          VUE_APP_AVALANCHE_MAINNET_NODE: ${{ secrets.VUE_APP_AVALANCHE_MAINNET_NODE }}
+          VUE_APP_AVALANCHE_TESTNET_NODE: ${{ secrets.VUE_APP_AVALANCHE_TESTNET_NODE }}
+          VUE_APP_NEAR_MAINNET_URL: ${{ secrets.VUE_APP_NEAR_MAINNET_URL }}
+          VUE_APP_AGENT_TESTNET_URL: ${{ secrets.VUE_APP_AGENT_TESTNET_URL }}
+          VUE_APP_AGENT_MAINNET_URL: ${{ secrets.VUE_APP_AGENT_MAINNET_URL }}
+        run: |
+          echo VUE_APP_AVALANCHE_MAINNET_NODE =${{ secrets.VUE_APP_AVALANCHE_MAINNET_NODE }} >> .env
+          echo VUE_APP_AVALANCHE_TESTNET_NODE =${{ secrets.VUE_APP_AVALANCHE_TESTNET_NODE }} >> .env
+          echo VUE_APP_NEAR_MAINNET_URL =${{ secrets.VUE_APP_NEAR_MAINNET_URL }} >> .env
+          echo VUE_APP_TERRA_MAINNET_URL =${{ secrets.VUE_APP_TERRA_MAINNET_URL }} >> .env
+          echo VUE_APP_AGENT_TESTNET_URL =${{ secrets.VUE_APP_AGENT_TESTNET_URL }} >> .env
+          echo VUE_APP_AGENT_MAINNET_URL =${{ secrets.VUE_APP_AGENT_MAINNET_URL }} >> .env
+          npm ci
+          npm run lint
+          npm run build
+
+      - name: Regression tests against (Prod) Mainnet
+        uses: beemi/puppeteer-headful@v1.0.11
+        env:
+          CI: 'true'
+          DISPLAY: :99
+          SEED_WORDS: ${{ secrets.TEST_NET_SEED_WORDS }}
+          TWENTY_FOUR_SEEDS: ${{ secrets.TWENTY_FOUR_SEEDS }}
+        with:
+          args: npm run test:mainnet:prodagent # Run tests against Prod mainnet
+
+      - name: Save Screenshots
+        uses: actions/upload-artifact@v2.3.1
+        if: always()
+        with:
+          name: screenshots
+          path: screenshots
+          if-no-files-found: ignore
+
+
+
